@@ -1,43 +1,16 @@
+'use strict'
+
 export const CONF = {
-  STATE: {
-    init: 'init',
-    uuid: 'uuid',
-    login: 'login',
-    logout: 'logout'
-  },
-
-  MSGTYPE_TEXT: 1,
-  MSGTYPE_IMAGE: 3,
-  MSGTYPE_VOICE: 34,
-  MSGTYPE_VIDEO: 43,
-  MSGTYPE_MICROVIDEO: 62,
-  MSGTYPE_EMOTICON: 47,
-  MSGTYPE_APP: 49,
-  MSGTYPE_VOIPMSG: 50,
-  MSGTYPE_VOIPNOTIFY: 52,
-  MSGTYPE_VOIPINVITE: 53,
-  MSGTYPE_LOCATION: 48,
-  MSGTYPE_STATUSNOTIFY: 51,
-  MSGTYPE_SYSNOTICE: 9999,
-  MSGTYPE_POSSIBLEFRIEND_MSG: 40,
-  MSGTYPE_VERIFYMSG: 37,
-  MSGTYPE_SHARECARD: 42,
-  MSGTYPE_SYS: 1e4,
-  MSGTYPE_RECALLED: 10002,
-
-  SYNCCHECK_RET_SUCCESS: 0,
-  SYNCCHECK_SELECTOR_NORMAL: 0,
-  SYNCCHECK_SELECTOR_MSG: 2,
-  SYNCCHECK_SELECTOR_MOBILEOPEN: 7,
-
+  LANG: "zh-CN",
+  EMOTICON_REG: 'img\\sclass="(qq)?emoji (qq)?emoji([\\da-f]*?)"\\s(text="[^<>(\\s]*")?\\s?src="[^<>(\\s]*"\\s*',
+  RES_PATH: "/zh_CN/htmledition/v2/",
   oplogCmdId: {
     TOPCONTACT: 3,
     MODREMARKNAME: 2
   },
-  SP_CONTACT_FILE_HELPER: 'filehelper',
-  SP_CONTACT_NEWSAPP: 'newsapp',
-  SP_CONTACT_RECOMMEND_HELPER: 'fmessage',
-
+  SP_CONTACT_FILE_HELPER: "filehelper",
+  SP_CONTACT_NEWSAPP: "newsapp",
+  SP_CONTACT_RECOMMEND_HELPER: "fmessage",
   CONTACTFLAG_CONTACT: 1,
   CONTACTFLAG_CHATCONTACT: 2,
   CONTACTFLAG_CHATROOMCONTACT: 4,
@@ -81,7 +54,24 @@ export const CONF = {
   MM_DATA_SYSNOTICE: 9999,
   MM_DATA_SYS: 1e4,
   MM_DATA_RECALLED: 10002,
-
+  MSGTYPE_TEXT: 1,
+  MSGTYPE_IMAGE: 3,
+  MSGTYPE_VOICE: 34,
+  MSGTYPE_VIDEO: 43,
+  MSGTYPE_MICROVIDEO: 62,
+  MSGTYPE_EMOTICON: 47,
+  MSGTYPE_APP: 49,
+  MSGTYPE_VOIPMSG: 50,
+  MSGTYPE_VOIPNOTIFY: 52,
+  MSGTYPE_VOIPINVITE: 53,
+  MSGTYPE_LOCATION: 48,
+  MSGTYPE_STATUSNOTIFY: 51,
+  MSGTYPE_SYSNOTICE: 9999,
+  MSGTYPE_POSSIBLEFRIEND_MSG: 40,
+  MSGTYPE_VERIFYMSG: 37,
+  MSGTYPE_SHARECARD: 42,
+  MSGTYPE_SYS: 1e4,
+  MSGTYPE_RECALLED: 10002,
   MSG_SEND_STATUS_READY: 0,
   MSG_SEND_STATUS_SENDING: 1,
   MSG_SEND_STATUS_SUCC: 2,
@@ -156,47 +146,79 @@ export const CONF = {
   MM_SEND_FILE_STATUS_SUCCESS: 2,
   MM_SEND_FILE_STATUS_FAIL: 3,
   MM_SEND_FILE_STATUS_CANCEL: 4,
-  MM_EMOTICON_WEB: '_web',
+  MM_EMOTICON_WEB: "_web",
 
-  SPECIALUSERS: ['newsapp', 'fmessage', 'filehelper', 'weibo', 'qqmail', 'fmessage', 'tmessage', 'qmessage', 'qqsync', 'floatbottle', 'lbsapp', 'shakeapp', 'medianote', 'qqfriend', 'readerapp', 'blogapp', 'facebookapp', 'masssendapp', 'meishiapp', 'feedsapp', 'voip', 'blogappweixin', 'weixin', 'brandsessionholder', 'weixinreminder', 'wxid_novlwrv3lqwv11', 'gh_22b87fa7cb3c', 'officialaccounts', 'notification_messages', 'wxid_novlwrv3lqwv11', 'gh_22b87fa7cb3c', 'wxitil', 'userexperience_alarm', 'notification_messages']
+  SYNCCHECK_RET_SUCCESS: 0,
+  SYNCCHECK_SELECTOR_NORMAL: 0,
+  SYNCCHECK_SELECTOR_MSG: 2,
+  SYNCCHECK_SELECTOR_MOBILEOPEN: 7,
+  STATE: {
+    init: 'init',
+    uuid: 'uuid',
+    login: 'login',
+    logout: 'logout'
+  },
+  SPECIALUSERS: ['newsapp', 'fmessage', 'filehelper', 'weibo', 'qqmail', 'fmessage', 'tmessage',
+    'qmessage', 'qqsync', 'floatbottle', 'lbsapp', 'shakeapp', 'medianote', 'qqfriend',
+    'readerapp', 'blogapp', 'facebookapp', 'masssendapp', 'meishiapp', 'feedsapp', 'voip',
+    'blogappweixin', 'weixin', 'brandsessionholder', 'weixinreminder', 'wxid_novlwrv3lqwv11',
+    'gh_22b87fa7cb3c', 'officialaccounts', 'notification_messages', 'wxid_novlwrv3lqwv11',
+    'gh_22b87fa7cb3c', 'wxitil', 'userexperience_alarm', 'notification_messages'
+  ]
 }
 
-export function updateAPI (API) {
-  let e = API.baseUri
-  let t = 'weixin.qq.com'
-  let o = 'file.wx.qq.com'
-  let n = 'webpush.weixin.qq.com'
-  e.indexOf('wx2.qq.com') > -1 ? (t = 'weixin.qq.com', o = 'file2.wx.qq.com', n = 'webpush2.weixin.qq.com') : e.indexOf('qq.com') > -1 ? (t = 'weixin.qq.com', o = 'file.wx.qq.com', n = 'webpush.weixin.qq.com') : e.indexOf('web1.wechat.com') > -1 ? (t = 'wechat.com', o = 'file1.wechat.com', n = 'webpush1.wechat.com') : e.indexOf('web2.wechat.com') > -1 ? (t = 'wechat.com', o = 'file2.wechat.com', n = 'webpush2.wechat.com') : e.indexOf('wechat.com') > -1 ? (t = 'wechat.com', o = 'file.wechat.com', n = 'webpush.wechat.com') : e.indexOf('web1.wechatapp.com') > -1 ? (t = 'wechatapp.com', o = 'file1.wechatapp.com', n = 'webpush1.wechatapp.com') : (t = 'wechatapp.com', o = 'file.wechatapp.com', n = 'webpush.wechatapp.com')
+export function getCONF(host) {
+  host = host || 'wx.qq.com';
+  let origin = `https://${host}`;
+  let loginUrl = "login.weixin.qq.com";
+  let fileUrl = "file.wx.qq.com";
+  let pushUrl = "webpush.weixin.qq.com";
+  host.indexOf("wx2.qq.com") > -1 ? (loginUrl = "login.wx2.qq.com", fileUrl = "file.wx2.qq.com",
+    pushUrl =
+    "webpush.wx2.qq.com") : host.indexOf("wx8.qq.com") > -1 ? (loginUrl = "login.wx8.qq.com",
+    fileUrl =
+    "file.wx8.qq.com", pushUrl = "webpush.wx8.qq.com") : host.indexOf("qq.com") > -1 ? (
+    loginUrl =
+    "login.wx.qq.com", fileUrl = "file.wx.qq.com", pushUrl = "webpush.wx.qq.com") : host.indexOf(
+    "web2.wechat.com") > -1 ? (loginUrl = "login.web2.wechat.com", fileUrl =
+    "file.web2.wechat.com", pushUrl =
+    "webpush.web2.wechat.com") : host.indexOf("wechat.com") > -1 && (loginUrl =
+    "login.web.wechat.com", fileUrl = "file.web.wechat.com", pushUrl = "webpush.web.wechat.com");
 
-  API.jsLogin = 'https://login.' + t + '/jslogin'
-  API.login = 'https://login.' + t + '/cgi-bin/mmwebwx-bin/login'
-  API.synccheck = 'https://' + n + '/cgi-bin/mmwebwx-bin/synccheck'
-  API.webwxdownloadmedia = 'https://' + o + '/cgi-bin/mmwebwx-bin/webwxgetmedia'
-  API.webwxuploadmedia = 'https://' + o + '/cgi-bin/mmwebwx-bin/webwxuploadmedia'
-  API.webwxpreview = e + '/webwxpreview'
-  API.webwxinit = e + '/webwxinit'
-  API.webwxgetcontact = e + '/webwxgetcontact'
-  API.webwxsync = e + '/webwxsync'
-  API.webwxbatchgetcontact = e + '/webwxbatchgetcontact'
-  API.webwxgeticon = e + '/webwxgeticon'
-  API.webwxsendmsg = e + '/webwxsendmsg'
-  API.webwxsendmsgimg = e + '/webwxsendmsgimg'
-  API.webwxsendmsgvedio = e + '/webwxsendvideomsg'
-  API.webwxsendemoticon = e + '/webwxsendemoticon'
-  API.webwxsendappmsg = e + '/webwxsendappmsg'
-  API.webwxgetheadimg = e + '/webwxgetheadimg'
-  API.webwxgetmsgimg = e + '/webwxgetmsgimg'
-  API.webwxgetmedia = e + '/webwxgetmedia'
-  API.webwxgetvideo = e + '/webwxgetvideo'
-  API.webwxlogout = e + '/webwxlogout'
-  API.webwxgetvoice = e + '/webwxgetvoice'
-  API.webwxupdatechatroom = e + '/webwxupdatechatroom'
-  API.webwxcreatechatroom = e + '/webwxcreatechatroom'
-  API.webwxstatusnotify = e + '/webwxstatusnotify'
-  API.webwxcheckurl = e + '/webwxcheckurl'
-  API.webwxverifyuser = e + '/webwxverifyuser'
-  API.webwxfeedback = e + '/webwxsendfeedback'
-  API.webwxreport = e + '/webwxstatreport'
-  API.webwxsearch = e + '/webwxsearchcontact'
-  API.webwxoplog = e + '/webwxoplog'
+  let conf = {}
+  conf.origin = origin
+  conf.baseUri = origin + "/cgi-bin/mmwebwx-bin"
+  conf.API_jsLogin = "https://" + loginUrl + "/jslogin?appid=wx782c26e4c19acffb&fun=new&lang=zh-CN"
+  conf.API_login = "https://" + loginUrl + "/cgi-bin/mmwebwx-bin/login"
+  conf.API_synccheck = "https://" + pushUrl + "/cgi-bin/mmwebwx-bin/synccheck"
+  conf.API_webwxdownloadmedia = "https://" + fileUrl + "/cgi-bin/mmwebwx-bin/webwxgetmedia"
+  conf.API_webwxuploadmedia = "https://" + fileUrl + "/cgi-bin/mmwebwx-bin/webwxuploadmedia"
+  conf.API_webwxpreview = origin + "/cgi-bin/mmwebwx-bin/webwxpreview"
+  conf.API_webwxinit = origin + "/cgi-bin/mmwebwx-bin/webwxinit"
+  conf.API_webwxgetcontact = origin + "/cgi-bin/mmwebwx-bin/webwxgetcontact"
+  conf.API_webwxsync = origin + "/cgi-bin/mmwebwx-bin/webwxsync"
+  conf.API_webwxbatchgetcontact = origin + "/cgi-bin/mmwebwx-bin/webwxbatchgetcontact"
+  conf.API_webwxgeticon = origin + "/cgi-bin/mmwebwx-bin/webwxgeticon"
+  conf.API_webwxsendmsg = origin + "/cgi-bin/mmwebwx-bin/webwxsendmsg"
+  conf.API_webwxsendmsgimg = origin + "/cgi-bin/mmwebwx-bin/webwxsendmsgimg"
+  conf.API_webwxsendmsgvedio = origin + "/cgi-bin/mmwebwx-bin/webwxsendvideomsg"
+  conf.API_webwxsendemoticon = origin + "/cgi-bin/mmwebwx-bin/webwxsendemoticon"
+  conf.API_webwxsendappmsg = origin + "/cgi-bin/mmwebwx-bin/webwxsendappmsg"
+  conf.API_webwxgetheadimg = origin + "/cgi-bin/mmwebwx-bin/webwxgetheadimg"
+  conf.API_webwxgetmsgimg = origin + "/cgi-bin/mmwebwx-bin/webwxgetmsgimg"
+  conf.API_webwxgetmedia = origin + "/cgi-bin/mmwebwx-bin/webwxgetmedia"
+  conf.API_webwxgetvideo = origin + "/cgi-bin/mmwebwx-bin/webwxgetvideo"
+  conf.API_webwxlogout = origin + "/cgi-bin/mmwebwx-bin/webwxlogout"
+  conf.API_webwxgetvoice = origin + "/cgi-bin/mmwebwx-bin/webwxgetvoice"
+  conf.API_webwxupdatechatroom = origin + "/cgi-bin/mmwebwx-bin/webwxupdatechatroom"
+  conf.API_webwxcreatechatroom = origin + "/cgi-bin/mmwebwx-bin/webwxcreatechatroom"
+  conf.API_webwxstatusnotify = origin + "/cgi-bin/mmwebwx-bin/webwxstatusnotify"
+  conf.API_webwxcheckurl = origin + "/cgi-bin/mmwebwx-bin/webwxcheckurl"
+  conf.API_webwxverifyuser = origin + "/cgi-bin/mmwebwx-bin/webwxverifyuser"
+  conf.API_webwxfeedback = origin + "/cgi-bin/mmwebwx-bin/webwxsendfeedback"
+  conf.API_webwxreport = origin + "/cgi-bin/mmwebwx-bin/webwxstatreport"
+  conf.API_webwxsearch = origin + "/cgi-bin/mmwebwx-bin/webwxsearchcontact"
+  conf.API_webwxoplog = origin + "/cgi-bin/mmwebwx-bin/webwxoplog"
+  conf.API_checkupload = origin + "/cgi-bin/mmwebwx-bin/webwxcheckupload"
+  return Object.assign(conf, CONF)
 }

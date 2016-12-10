@@ -30,16 +30,22 @@ import {protoAugment, convertEmoji, formatNum} from '../util'
 }
 */
 
-export function contentParse (s) {
-  return convertEmoji(s.replace('&lt;', '<').replace('&gt;', '>').replace('<br/>', '\n'))
-}
-
 const messageProto = {
   init: function (instance) {
     this.MsgType = +this.MsgType
-    this.Content = this.Content || ''
-    this.Content = contentParse(this.Content)
     this.isSendBySelf = this.FromUserName === instance.user.UserName || this.FromUserName === ''
+
+    this.OriginalContent = this.Content
+    if (this.FromUserName.indexOf('@@') == 0) {
+      this.Content = this.Content.replace(/^@.*?(?=:)/, match => {
+        let user = instance.contacts[this.FromUserName].MemberList.find(member => {
+          return member.UserName == match
+        })
+        return user ? instance.Contact.getDisplayName(user) : match
+      })
+    }
+    this.Content = this.Content.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/<br\/>/g, '\n')
+    this.Content = convertEmoji(this.Content)
 
     return this
   },
@@ -58,8 +64,10 @@ const messageProto = {
 export default function MessageFactory (instance) {
   return {
     extend: function (messageObj) {
-      protoAugment(messageObj, messageProto)
-      return messageObj.init(instance)
+      let message = Object.create(messageObj)
+      Object.assign(message, messageProto)
+      message.init(instance)
+      return message
     }
   }
 }
