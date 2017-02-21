@@ -1,7 +1,7 @@
 {
   "name": "wechat4u",
   "version": "0.6.9",
-  "description": "web wechat lib for user",
+  "description": "web wechat lib for userasdasdasd",
   "main": "lib/wechat.js",
   "scripts": {
     "example": "webpack --config=./example/webpack.config.js && cross-env DEBUG=wechat,wxbot,app babel-node ./example/app.js",
