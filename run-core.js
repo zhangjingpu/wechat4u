@@ -5,7 +5,13 @@ const qrcode = require('qrcode-terminal')
 const fs = require('fs')
 const request = require('request')
 
-let bot = new Wechat()
+let bot
+// 尝试获取本地登录数据，免扫码
+try {
+  bot = new Wechat(require('./sync-data.json'))
+} catch (e) {
+  bot = new Wechat()
+}
 
 bot.on('error', err => {
   console.log('错误：', err)
@@ -26,13 +32,12 @@ bot.on('user-avatar', avatar => {
 
 bot.on('login', () => {
   console.log('登录成功')
-  let ToUserName = bot.contacts['filehelper'].UserName || 'filehelper'
 
+  // 保存登录数据
+  fs.writeFileSync('./sync-data.json', JSON.stringify(bot.botData))
+
+  let ToUserName = bot.contacts['filehelper'].UserName || 'filehelper'
   // 发送文本消息，可以包含emoji(😒)和QQ表情([坏笑])
-  // bot.sendText('发送文本消息，可以包含emoji(😒)和QQ表情([坏笑])', ToUserName)
-  //   .catch(err => {
-  //     console.log(err)
-  //   })
   bot.sendMsg('发送文本消息，可以包含emoji(😒)和QQ表情([坏笑])', ToUserName)
     .catch(err => {
       console.log(err)
@@ -50,9 +55,9 @@ bot.on('login', () => {
   //     console.log(err)
   //   })
   bot.sendMsg({
-      file: request('https://raw.githubusercontent.com/nodeWechat/wechat4u/master/bot-qrcode.jpg'),
-      filename: 'bot-qrcode.jpg'
-    }, ToUserName)
+    file: request('https://raw.githubusercontent.com/nodeWechat/wechat4u/master/bot-qrcode.jpg'),
+    filename: 'bot-qrcode.jpg'
+  }, ToUserName)
     .catch(err => {
       console.log(err)
     })
@@ -72,8 +77,8 @@ bot.on('login', () => {
   //     console.log(err)
   //   })
   bot.sendMsg({
-      file: fs.createReadStream('./media/test.gif')
-    }, ToUserName)
+    file: fs.createReadStream('./media/test.gif')
+  }, ToUserName)
     .catch(err => {
       console.log(err)
     })
@@ -87,8 +92,8 @@ bot.on('login', () => {
   //     console.log(err)
   //   })
   bot.sendMsg({
-      file: fs.createReadStream('./media/test.mp4')
-    }, ToUserName)
+    file: fs.createReadStream('./media/test.mp4')
+  }, ToUserName)
     .catch(err => {
       console.log(err)
     })
@@ -102,8 +107,8 @@ bot.on('login', () => {
   //     console.log(err)
   //   })
   bot.sendMsg({
-      file: fs.createReadStream('./media/test.txt')
-    }, ToUserName)
+    file: fs.createReadStream('./media/test.txt')
+  }, ToUserName)
     .catch(err => {
       console.log(err)
     })
@@ -142,6 +147,13 @@ bot.on('message', msg => {
       }).catch(err => {
         console.log(err)
       })
+      // 直接转发图片消息
+      bot.sendPic({
+        Content: msg.Content
+      }, msg.FromUserName)
+        .catch(err => {
+          bot.emit('error', err)
+        })
       break
     case bot.CONF.MSGTYPE_VOICE:
       // 语音消息
@@ -172,6 +184,13 @@ bot.on('message', msg => {
       }).catch(err => {
         console.log(err)
       })
+      // 直接转发视频消息
+      bot.sendVideo({
+        Content: msg.Content
+      }, msg.FromUserName)
+        .catch(err => {
+          bot.emit('error', err)
+        })
       break
     case bot.CONF.MSGTYPE_MICROVIDEO:
       // 小视频消息
